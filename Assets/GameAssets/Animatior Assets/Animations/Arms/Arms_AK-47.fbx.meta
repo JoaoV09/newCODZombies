@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 8aa660d884024dc4db4b1061e1f963ea
+guid: 2252d70f01bc1b045a4dd06de8fba579
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -35,7 +35,7 @@ ModelImporter:
       takeName: Armature|Aim
       internalID: 4247889949358235670
       firstFrame: 0
-      lastFrame: 29
+      lastFrame: 19
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -60,11 +60,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature|Aim_firing
-      takeName: Armature|Aim_firing
-      internalID: 2339601530474510811
+      name: Armature|Aim_Firing
+      takeName: Armature|Aim_Firing
+      internalID: 3890389662315332958
       firstFrame: 0
-      lastFrame: 19
+      lastFrame: 9
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -93,7 +93,7 @@ ModelImporter:
       takeName: Armature|Aim_transition
       internalID: -22598641198318910
       firstFrame: 0
-      lastFrame: 9
+      lastFrame: 24
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -122,7 +122,7 @@ ModelImporter:
       takeName: Armature|DesEquipe
       internalID: 4677337318932210724
       firstFrame: 0
-      lastFrame: 24
+      lastFrame: 29
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -180,7 +180,7 @@ ModelImporter:
       takeName: Armature|Firing
       internalID: 4521638917784404211
       firstFrame: 0
-      lastFrame: 19
+      lastFrame: 9
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -238,36 +238,7 @@ ModelImporter:
       takeName: Armature|Reload
       internalID: 7332139420686511986
       firstFrame: 0
-      lastFrame: 85
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
-    - serializedVersion: 16
-      name: Armature|Reload_Rep
-      takeName: Armature|Reload_Rep
-      internalID: -5845721596720598379
-      firstFrame: 0
-      lastFrame: 0
+      lastFrame: 66
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

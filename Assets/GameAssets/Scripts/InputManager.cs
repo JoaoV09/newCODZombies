@@ -14,8 +14,6 @@ public class InputManager : MonoBehaviour
     public KeyCode aim = KeyCode.Mouse1;
     public KeyCode reload = KeyCode.R;
     
-    public int Attack;
-
     private void Awake()
     {
         instances = this;

@@ -13,6 +13,6 @@ public class SingleShot : GunHolder
 
     public override void Firing()
     {
-
+ 
     }
 }

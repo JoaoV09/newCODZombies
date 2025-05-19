@@ -17,4 +17,5 @@ public class GunSBJ : ItemSBJ
     public GameObject bulletHole;
     public GameObject firingPartical;
     public AudioClip firingSound;
+    public RuntimeAnimatorController controller;
 }
