@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &312607390877634344
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8779256280360132140}
+  m_Layer: 0
+  m_Name: FiringPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8779256280360132140
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 312607390877634344}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: -0.1597, y: 0.0599, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7109905440155612401}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!1 &418363440496343608
 GameObject:
   m_ObjectHideFlags: 0
@@ -288,10 +319,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7109905440155612401}
+  - component: {fileID: 1141598629877767947}
   - component: {fileID: 3049735361662491303}
   - component: {fileID: 283710572905725427}
   - component: {fileID: 8164596870154176308}
-  - component: {fileID: 1141598629877767947}
   m_Layer: 0
   m_Name: Revolve
   m_TagString: Gun
@@ -317,8 +348,31 @@ Transform:
   - {fileID: 2071623794262361690}
   - {fileID: 8966377148351423790}
   - {fileID: 9078697641247170716}
+  - {fileID: 8779256280360132140}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: -90}
+--- !u!95 &1141598629877767947
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3143020322156047510}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 7ffd50fc02c3ee7469db057c15799077, type: 3}
+  m_Controller: {fileID: 9100000, guid: 793e93e9744746446a360dfb83fe7875, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &3049735361662491303
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -335,6 +389,11 @@ MonoBehaviour:
   currentAmunition: 6
   maxAmunition: 6
   magazineAmunition: 120
+  firingPoint: {fileID: 8779256280360132140}
+  gunAnimator: {fileID: 0}
+  input: {fileID: 0}
+  arms: {fileID: 1141598629877767947}
+  cam: {fileID: 0}
 --- !u!65 &283710572905725427
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -383,28 +442,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!95 &1141598629877767947
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3143020322156047510}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 7ffd50fc02c3ee7469db057c15799077, type: 3}
-  m_Controller: {fileID: 9100000, guid: 793e93e9744746446a360dfb83fe7875, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &3445971588709507665
 GameObject:
   m_ObjectHideFlags: 0

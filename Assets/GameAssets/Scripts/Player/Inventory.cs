@@ -1,29 +1,39 @@
 using System;
 using System.Collections;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour
 {
     [Header("Inventory Settings")]
-    [SerializeField] private Gun[] gunSlot;
-    [SerializeField] private currentGun currentSlot;
+    public Gun[] gunSlot;
+    public currentGun currentSlot;
 
     [Header("Collect")]
     [SerializeField] private float distToCollect;
     [SerializeField] private LayerMask colectMask;
 
+
+    [Header("UI Slots")]
+    [SerializeField] private Image gunSprite;
+    [SerializeField] private TextMeshProUGUI gunText;
+
     [Header("References")]
+    [SerializeField] private Animator arms;
     [SerializeField] private Transform holder;
     [SerializeField] private Camera cam;
     private InputManager ip;
 
     [Header("Debug State")]
-    [SerializeField] private bool switchGun;
+    public bool switchGun { private set; get; }
 
     private void Start()
     {
         ip = InputManager.instances;
         cam = Camera.main;
+        arms = GlobalReferences.instances.arms;
+        SetIU();
     }
 
     private void Update()
@@ -39,6 +49,7 @@ public class Inventory : MonoBehaviour
 
         UsingItem();
         Collect();
+        SetIU();
     }
 
     private void Collect()
@@ -77,11 +88,14 @@ public class Inventory : MonoBehaviour
             switchGun = true;
 
             //animação de guardar
-
-            yield return new WaitForSeconds(.3f);
+            arms.CrossFade("DesEquipe", .2f);
+            Debug.Log("1");
+            yield return new WaitForSeconds(gunSlot[currentSlot.index].gunInfo != null ? gunSlot[currentSlot.index].gunInfo.timeToSwitch : 1f);
             
             if (currentSlot.currentPrefab != null)
                 Destroy(currentSlot.currentPrefab);
+
+            arms.runtimeAnimatorController = newGun.controller;
 
             //animação de puxar
 
@@ -92,7 +106,7 @@ public class Inventory : MonoBehaviour
             currentSlot.currentPrefab.GetComponent<Rigidbody>().isKinematic = true;
             currentSlot.currentPrefab.GetComponent<Collider>().enabled = false;
 
-            yield return new WaitForSeconds(newGun.timeToswitch);
+            yield return new WaitForSeconds(newGun.timeToSwitch);
 
             switchGun = false;
         }
@@ -100,11 +114,18 @@ public class Inventory : MonoBehaviour
     }
     private void UsingItem()
     {
-        if (currentSlot.GunHolder == null) return;
+        if (currentSlot.GunHolder == null || switchGun) return;
 
-        currentSlot.GunHolder.UsingItem();
+        currentSlot.GunHolder.UsingItem(this);
     }
 
+    private void SetIU()
+    {
+        if (!currentSlot.GunHolder) return;
+
+        gunSprite.sprite = currentSlot.GunHolder.itemInfo.itemSprite;
+        gunText.text = $"{gunSlot[currentSlot.index].currentAmunition} / {gunSlot[currentSlot.index].magazineAmunition}";
+    }
 }
 
 

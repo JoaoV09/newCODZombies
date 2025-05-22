@@ -4,5 +4,5 @@ public abstract class ItemHolder : MonoBehaviour
 {
     public ItemSBJ itemInfo;
 
-    public abstract void UsingItem();
+    public abstract void UsingItem(Inventory inventory);
 }

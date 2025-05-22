@@ -13,18 +13,31 @@ MonoBehaviour:
   m_Name: AK-47
   m_EditorClassIdentifier: 
   itemName: Ak-47
-  itemPrefab: {fileID: 1282100991028750845, guid: fa810108cee17e04d9a8bab4d11751d3, type: 3}
-  itemSprite: {fileID: 0}
+  itemPrefab: {fileID: 1032716800434961355, guid: fa810108cee17e04d9a8bab4d11751d3, type: 3}
+  itemSprite: {fileID: 21300000, guid: a0717ee76345dc844a9cb8218c0aa672, type: 3}
   damager: 25
   distToFiring: 1000
   maks:
     serializedVersion: 2
     m_Bits: 1
   timeToReload: 2
-  timeToswitch: 2
+  timeToSwitch: 1
+  TimeToFiring: 0.25
   gunType: 2
-  particalCollider: {fileID: 0}
-  bulletHole: {fileID: 0}
-  firingPartical: {fileID: 0}
+  firingType: 0
+  bulletHits:
+  - tag: Untagged
+    layer:
+      serializedVersion: 2
+      m_Bits: 1
+    bulletHole: {fileID: 8848294005454285919, guid: 82a0de52498134b44abef235802bec3b, type: 3}
+    particalCollider: {fileID: 100002, guid: 5b5a68a74f79c4b47aabd30a50323c3d, type: 3}
+  - tag: Enemy
+    layer:
+      serializedVersion: 2
+      m_Bits: 1
+    bulletHole: {fileID: 0}
+    particalCollider: {fileID: 7470586865825130479, guid: fcb61529352f32c4ab1fa40dceac4faf, type: 3}
+  firingPartical: {fileID: 100000, guid: 03a4a1935a9f4454c861dfa0aa6df562, type: 3}
   firingSound: {fileID: 0}
   controller: {fileID: 22100000, guid: 98c9d6f694bc03e40a792875137bc97e, type: 2}

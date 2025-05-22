@@ -14,17 +14,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Revolver
   itemPrefab: {fileID: 3143020322156047510, guid: 844be7ab1d3185048a840294acfaeb53, type: 3}
-  itemSprite: {fileID: 0}
+  itemSprite: {fileID: 21300000, guid: 23f6b67ad3e70304bab53c0a094f2ba9, type: 3}
   damager: 50
   distToFiring: 100
   maks:
     serializedVersion: 2
     m_Bits: 1
-  timeToReload: 2
-  timeToswitch: 1
+  timeToReload: 2.4
+  timeToSwitch: 1
+  TimeToFiring: 0.8
   gunType: 1
-  particalCollider: {fileID: 0}
-  bulletHole: {fileID: 0}
-  firingPartical: {fileID: 0}
+  firingType: 1
+  bulletHits:
+  - tag: Untagged
+    layer:
+      serializedVersion: 2
+      m_Bits: 1
+    bulletHole: {fileID: 8848294005454285919, guid: 82a0de52498134b44abef235802bec3b, type: 3}
+    particalCollider: {fileID: 100002, guid: 5b5a68a74f79c4b47aabd30a50323c3d, type: 3}
+  - tag: Enemy
+    layer:
+      serializedVersion: 2
+      m_Bits: 1
+    bulletHole: {fileID: 0}
+    particalCollider: {fileID: 7470586865825130479, guid: fcb61529352f32c4ab1fa40dceac4faf, type: 3}
+  firingPartical: {fileID: 100000, guid: 8eaaa4f553116f44b8459bc24201c514, type: 3}
   firingSound: {fileID: 0}
   controller: {fileID: 9100000, guid: 965eaf641a6b7224ab03756dde903e2b, type: 2}

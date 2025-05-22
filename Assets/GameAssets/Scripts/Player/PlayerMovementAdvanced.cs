@@ -1,10 +1,11 @@
+using NUnit.Framework;
 using System.Collections;
 using UnityEngine;
 
 public class PlayerMovementAdvanced : MonoBehaviour
 {
     [Header("Movement")]
-    private float moveSpeed;
+    [SerializeField] private float moveSpeed;
     public float walkSpeed = 2;
     public float sprintSpeed = 5;
     public float slideSpeed = 4;
@@ -27,7 +28,6 @@ public class PlayerMovementAdvanced : MonoBehaviour
     public float crouchSpeed = 1.5f;
     public float crouchYScale = .5f;
     public Vector3 crouchCenter;
-    private float startYScale;
     private Vector3 startCenter;
 
     [Header("Keybinds")]
@@ -57,7 +57,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
     public Animator animator;
     public CapsuleCollider cc;
     Rigidbody rb;
-
+    Inventory inventory;
 
     float horizontalInput;
     float verticalInput;
@@ -81,6 +81,9 @@ public class PlayerMovementAdvanced : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         cc = GetComponent<CapsuleCollider>();
+        inventory = GetComponent < Inventory>();
+        animator = GlobalReferences.instances.arms;
+
         rb.freezeRotation = true;
 
         readyToJump = true;
@@ -162,7 +165,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
         }
 
         // Mode - Sprinting
-        else if(grounded && Input.GetKey(sprintKey) && verticalInput > 0)
+        else if(grounded && Input.GetKey(sprintKey) && verticalInput > 0 && !inventory.currentSlot.GunHolder.reload)
         {
             state = MovementState.sprinting;
             desiredMoveSpeed = sprintSpeed;
@@ -307,14 +310,11 @@ public class PlayerMovementAdvanced : MonoBehaviour
     {
         if (animator == null) return;
 
-        animator.SetFloat("Speed", verticalInput > 0 && Input.GetKey(sprintKey) ? 2 : verticalInput, .2f, Time.deltaTime);
+        animator.SetFloat("Speed", verticalInput * moveSpeed, .2f, Time.deltaTime);
 
         animator.SetBool("Jumping", grounded && Input.GetKey(jumpKey) && readyToJump && state == MovementState.sliding);
         animator.SetBool("Fall", state == MovementState.air ? true : false);
         animator.SetBool("IsGrounde", grounded);
-        animator.SetBool("Slide", state == MovementState.sliding ? true : false);
-        animator.SetBool("IsCrouch", state == MovementState.crouching ? true : false);
-
 
         if (Physics.Raycast(transform.position, -Vector3.up, out RaycastHit hit, distRay, whatIsGround))
             animator.SetFloat("PreGround", (hit.point - transform.position).magnitude);
