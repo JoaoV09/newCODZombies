@@ -20,9 +20,13 @@ MonoBehaviour:
   maks:
     serializedVersion: 2
     m_Bits: 1
-  timeToReload: 2.4
+  timeToReload: 2.8
   timeToSwitch: 1
-  TimeToFiring: 0.8
+  timeToFiring: 0.8
+  recoil: {x: 20, y: 5, z: 6}
+  aimRecoil: {x: 10, y: 3, z: 4}
+  snappiness: 6
+  returnSpeed: 2
   gunType: 1
   firingType: 1
   bulletHits:

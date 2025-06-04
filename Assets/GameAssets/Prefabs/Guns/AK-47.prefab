@@ -80,11 +80,15 @@ MonoBehaviour:
   currentAmunition: 25
   maxAmunition: 25
   magazineAmunition: 250
+  forcerCollision: 25
   firingPoint: {fileID: 7698706307555850590}
   gunAnimator: {fileID: 0}
   input: {fileID: 0}
   arms: {fileID: 7860293713796775862}
   cam: {fileID: 0}
+  reload: 0
+  aim: 0
+  firing: 0
 --- !u!65 &8701590497965418709
 BoxCollider:
   m_ObjectHideFlags: 0

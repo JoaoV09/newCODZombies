@@ -22,7 +22,11 @@ MonoBehaviour:
     m_Bits: 1
   timeToReload: 2
   timeToSwitch: 1
-  TimeToFiring: 0.25
+  timeToFiring: 0.2
+  recoil: {x: 5, y: 3, z: 3}
+  aimRecoil: {x: 3, y: 2.5, z: 2}
+  snappiness: 5
+  returnSpeed: 2
   gunType: 2
   firingType: 0
   bulletHits:

@@ -16,7 +16,7 @@ public class Sliding : MonoBehaviour
     private float slideTimer;
 
     public float slideYScale = .5f;
-    public Vector3 slideCenter = new Vector3(0, .5f, 0);
+    public Vector3 slideCenter = new Vector3(1f, .5f, 1f);
     private float startYScale;
     private Vector3 startCenter;
 

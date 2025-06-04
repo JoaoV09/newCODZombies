@@ -7,6 +7,8 @@ TagManager:
   - Item
   - Gun
   - Enemy
+  - GameManager
+  - Project
   layers:
   - Default
   - TransparentFX

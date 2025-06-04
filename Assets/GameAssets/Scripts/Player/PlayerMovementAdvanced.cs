@@ -1,4 +1,3 @@
-using NUnit.Framework;
 using System.Collections;
 using UnityEngine;
 
@@ -165,7 +164,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
         }
 
         // Mode - Sprinting
-        else if(grounded && Input.GetKey(sprintKey) && verticalInput > 0 && !inventory.currentSlot.GunHolder.reload)
+        else if (grounded && Input.GetKey(sprintKey) && verticalInput > 0 && !inventory.currentSlot.GunHolder.reload && !inventory.currentSlot.GunHolder.aim && !inventory.currentSlot.GunHolder.firing)
         {
             state = MovementState.sprinting;
             desiredMoveSpeed = sprintSpeed;
@@ -240,15 +239,15 @@ public class PlayerMovementAdvanced : MonoBehaviour
         }
 
         // on ground
-        else if(grounded)
+        else if (grounded)
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
 
-        // in air
-        else if(!grounded)
+            // in air
+            else if(!grounded)
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);
 
-        // turn gravity off while on slope
-        rb.useGravity = !OnSlope();
+            // turn gravity off while on slope
+            rb.useGravity = !OnSlope();
     }
 
     private void SpeedControl()
@@ -310,7 +309,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
     {
         if (animator == null) return;
 
-        animator.SetFloat("Speed", verticalInput * moveSpeed, .2f, Time.deltaTime);
+        animator.SetFloat("Speed", state == MovementState.sliding ? 0 : rb.linearVelocity.magnitude, .2f, Time.deltaTime);
 
         animator.SetBool("Jumping", grounded && Input.GetKey(jumpKey) && readyToJump && state == MovementState.sliding);
         animator.SetBool("Fall", state == MovementState.air ? true : false);

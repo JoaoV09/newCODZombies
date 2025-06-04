@@ -42,7 +42,7 @@ public class Inventory : MonoBehaviour
         {
             if (Input.GetKeyDown((i + 1).ToString()))
             {
-                StartCoroutine(EquipItem(i));
+                StartCoroutine(EquipGun(i));
                 break;
             }
         }
@@ -80,35 +80,46 @@ public class Inventory : MonoBehaviour
         }
 
     }
-    private IEnumerator EquipItem(int _index)
+    private IEnumerator EquipGun(int _index)
     {
-        var newGun = gunSlot[_index].gunInfo;
-        if (newGun != null)
+        if (currentSlot.index != _index)
         {
-            switchGun = true;
+            var newGun = gunSlot[_index].gunInfo;
 
-            //animação de guardar
-            arms.CrossFade("DesEquipe", .2f);
-            Debug.Log("1");
-            yield return new WaitForSeconds(gunSlot[currentSlot.index].gunInfo != null ? gunSlot[currentSlot.index].gunInfo.timeToSwitch : 1f);
-            
-            if (currentSlot.currentPrefab != null)
-                Destroy(currentSlot.currentPrefab);
+            if (newGun != null)
+            {
+                switchGun = true;
 
-            arms.runtimeAnimatorController = newGun.controller;
+                //animação de guardar
+                arms.CrossFade("DesEquipe", .2f);
 
-            //animação de puxar
+                var _current = gunSlot[currentSlot.index].gunInfo;
 
-            currentSlot.index = _index;
-            currentSlot.currentPrefab = Instantiate(newGun.itemPrefab, holder);
-            currentSlot.GunHolder = currentSlot.currentPrefab.GetComponent<GunHolder>();
+                yield return new WaitForSeconds(_current != null ? _current.timeToSwitch : 1f);
 
-            currentSlot.currentPrefab.GetComponent<Rigidbody>().isKinematic = true;
-            currentSlot.currentPrefab.GetComponent<Collider>().enabled = false;
+                if (currentSlot.currentPrefab != null)
+                    Destroy(currentSlot.currentPrefab);
 
-            yield return new WaitForSeconds(newGun.timeToSwitch);
+                arms.runtimeAnimatorController = newGun.controller;
 
-            switchGun = false;
+                //animação de puxar
+
+                currentSlot.index = _index;
+                currentSlot.currentPrefab = Instantiate(newGun.itemPrefab, holder);
+                currentSlot.GunHolder = currentSlot.currentPrefab.GetComponent<GunHolder>();
+
+                currentSlot.currentPrefab.GetComponent<Rigidbody>().isKinematic = true;
+                currentSlot.currentPrefab.GetComponent<Collider>().enabled = false;
+
+
+                var _recoil = cam.GetComponentInParent<CameraRecoil>();
+
+                _recoil.SetVaiables(_current.recoil, _current.snappiness, _current.returnSpeed);
+
+                yield return new WaitForSeconds(newGun.timeToSwitch);
+
+                switchGun = false;
+            }
         }
         yield return null;
     }
@@ -150,5 +161,11 @@ public class currentGun
 
 public enum gunType { None, pistol, rifle }
 
+[Serializable]
+public class Projects 
+{
+    public ProjectHolder project;
+    public int amount;
+}
 
 

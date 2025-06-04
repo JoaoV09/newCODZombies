@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -18,18 +19,27 @@ public class SingleShot : GunHolder
     {
         var veloc = GlobalReferences.instances.playMove.GetComponent<Rigidbody>().linearVelocity;
         veloc.y = 0;
+        var _gun = ((GunSBJ)itemInfo);
 
-        GlobalReferences.instances.arms.SetBool("Aim", veloc.magnitude > 3.5 ? false : Input.GetKey(input.aim));
+            //OnGunAim.Invoke();
+        
+        aim = Input.GetKey(input.aim);
+        GlobalReferences.instances.arms.SetBool("Aim", Input.GetKey(input.aim));
+        cam.GetComponentInParent<CameraRecoil>().SetVaiables(Input.GetKey(input.aim) ? _gun.aimRecoil : _gun.recoil, _gun.snappiness, _gun.returnSpeed);
+
     }
 
     public override void Firing(Inventory inventory)
     {
+        firing = true;
         inventory.gunSlot[inventory.currentSlot.index].currentAmunition = Mathf.Clamp(inventory.gunSlot[inventory.currentSlot.index].currentAmunition - 1, 0, maxAmunition);
 
         Instantiate(((GunSBJ)itemInfo).firingPartical, firingPoint);
 
-        GlobalReferences.instances.arms.CrossFade(Input.GetKey(input.aim) ? "Aim_Firing" : "Firing", .1f);
-        gunAnimator.CrossFade("Firing", .1f);
+        GlobalReferences.instances.arms.CrossFade(Input.GetKey(input.aim) ? "Aim_Firing" : "Firing", .05f);
+        gunAnimator.CrossFade("Firing",  .05f);
+
+        OnGunFiring.Invoke();
 
         if (Physics.Raycast(cam.transform.position, cam.transform.forward, out RaycastHit hit, ((GunSBJ)itemInfo).distToFiring, ((GunSBJ)itemInfo).maks))
         {
@@ -56,16 +66,20 @@ public class SingleShot : GunHolder
                 //enemy.takeDamager((GunSBJ)itemInfo).damager);
             }else if (hit.collider.tag == "Gun")
             {
-                hit.collider.GetComponent<Rigidbody>().AddForce(cam.transform.forward * 10, ForceMode.Impulse);
+                hit.collider.GetComponent<Rigidbody>().AddForce(cam.transform.forward * forcerCollision, ForceMode.Impulse);
             }
 
 
         }
-            T = Time.time + ((GunSBJ)itemInfo).TimeToFiring;
+            T = Time.time + ((GunSBJ)itemInfo).timeToFiring;
+        firing = false;
     }
     public IEnumerator Reload(Inventory inventory)
     {
         reload = true;
+
+        //OnGunReload.Invoke();
+
         GlobalReferences.instances.arms.CrossFade("Reload", .2f);
         gunAnimator.CrossFade("Reload", .2f);
 
