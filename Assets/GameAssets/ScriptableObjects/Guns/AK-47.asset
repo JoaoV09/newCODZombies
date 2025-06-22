@@ -15,19 +15,20 @@ MonoBehaviour:
   itemName: Ak-47
   itemPrefab: {fileID: 1032716800434961355, guid: fa810108cee17e04d9a8bab4d11751d3, type: 3}
   itemSprite: {fileID: 21300000, guid: a0717ee76345dc844a9cb8218c0aa672, type: 3}
+  slotType: 2
+  timeToSwitch: 1
+  controller: {fileID: 22100000, guid: 98c9d6f694bc03e40a792875137bc97e, type: 2}
   damager: 25
   distToFiring: 1000
   maks:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 257
   timeToReload: 2
-  timeToSwitch: 1
   timeToFiring: 0.2
   recoil: {x: 5, y: 3, z: 3}
   aimRecoil: {x: 3, y: 2.5, z: 2}
   snappiness: 5
   returnSpeed: 2
-  gunType: 2
   firingType: 0
   bulletHits:
   - tag: Untagged
@@ -39,9 +40,8 @@ MonoBehaviour:
   - tag: Enemy
     layer:
       serializedVersion: 2
-      m_Bits: 1
+      m_Bits: 256
     bulletHole: {fileID: 0}
     particalCollider: {fileID: 7470586865825130479, guid: fcb61529352f32c4ab1fa40dceac4faf, type: 3}
   firingPartical: {fileID: 100000, guid: 03a4a1935a9f4454c861dfa0aa6df562, type: 3}
   firingSound: {fileID: 0}
-  controller: {fileID: 22100000, guid: 98c9d6f694bc03e40a792875137bc97e, type: 2}

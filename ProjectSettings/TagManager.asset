@@ -5,20 +5,19 @@ TagManager:
   serializedVersion: 3
   tags:
   - Item
-  - Gun
   - Enemy
   - GameManager
-  - Project
+  - Interactable
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
   - Item
-  - 
-  - 
+  - Entitis
+  - BodyPart
   - 
   - 
   - 

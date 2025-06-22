@@ -15,19 +15,20 @@ MonoBehaviour:
   itemName: Revolver
   itemPrefab: {fileID: 3143020322156047510, guid: 844be7ab1d3185048a840294acfaeb53, type: 3}
   itemSprite: {fileID: 21300000, guid: 23f6b67ad3e70304bab53c0a094f2ba9, type: 3}
+  slotType: 1
+  timeToSwitch: 1
+  controller: {fileID: 9100000, guid: 965eaf641a6b7224ab03756dde903e2b, type: 2}
   damager: 50
   distToFiring: 100
   maks:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 257
   timeToReload: 2.8
-  timeToSwitch: 1
   timeToFiring: 0.8
-  recoil: {x: 20, y: 5, z: 6}
-  aimRecoil: {x: 10, y: 3, z: 4}
+  recoil: {x: 10, y: 4, z: 5}
+  aimRecoil: {x: 8, y: 2, z: 3}
   snappiness: 6
   returnSpeed: 2
-  gunType: 1
   firingType: 1
   bulletHits:
   - tag: Untagged
@@ -39,9 +40,8 @@ MonoBehaviour:
   - tag: Enemy
     layer:
       serializedVersion: 2
-      m_Bits: 1
+      m_Bits: 256
     bulletHole: {fileID: 0}
     particalCollider: {fileID: 7470586865825130479, guid: fcb61529352f32c4ab1fa40dceac4faf, type: 3}
   firingPartical: {fileID: 100000, guid: 8eaaa4f553116f44b8459bc24201c514, type: 3}
   firingSound: {fileID: 0}
-  controller: {fileID: 9100000, guid: 965eaf641a6b7224ab03756dde903e2b, type: 2}

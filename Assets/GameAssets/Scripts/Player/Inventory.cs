@@ -1,27 +1,25 @@
 using System;
 using System.Collections;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour
 {
     [Header("Inventory Settings")]
-    public Gun[] gunSlot;
-    public currentGun currentSlot;
+    public ItemSlot[] itemSlot;
+    public currentItem currentSlot;
+
+    [Space(10)]
+    [Header("Amuniton Slots")]
+    public AmunitionSlots[] amunitionSlot;
 
     [Header("Collect")]
     [SerializeField] private float distToCollect;
     [SerializeField] private LayerMask colectMask;
 
-
-    [Header("UI Slots")]
-    [SerializeField] private Image gunSprite;
-    [SerializeField] private TextMeshProUGUI gunText;
-
     [Header("References")]
     [SerializeField] private Animator arms;
-    [SerializeField] private Transform holder;
+    public GameObject hitTarget;
+    public Transform holder;
     [SerializeField] private Camera cam;
     private InputManager ip;
 
@@ -33,139 +31,204 @@ public class Inventory : MonoBehaviour
         ip = InputManager.instances;
         cam = Camera.main;
         arms = GlobalReferences.instances.arms;
-        SetIU();
+        GunHolder.OnHit += HiMark;
     }
 
     private void Update()
     {
-        for (int i = 0; i < gunSlot.Length; i++)
+        for (int i = 0; i < itemSlot.Length; i++)
         {
             if (Input.GetKeyDown((i + 1).ToString()))
             {
-                StartCoroutine(EquipGun(i));
+                if (currentSlot.index != i)
+                    StartCoroutine(EquipGun(i));
+                
                 break;
             }
         }
 
         UsingItem();
-        Collect();
-        SetIU();
+        Interact();
+
+        if (Input.GetKeyDown(ip.drop) && !switchGun)
+            DropItemEquiped();
     }
 
-    private void Collect()
+    private void Interact()
     {
-        if (!Input.GetKeyDown(ip.collect)) return;
+        Debug.DrawRay(cam.transform.position, cam.transform.forward * distToCollect);
 
         if (Physics.Raycast(cam.transform.position, cam.transform.forward, out RaycastHit hit, distToCollect, colectMask))
         {
-
-            if (hit.collider.tag == "Gun")
+            if (hit.collider.tag == "Interactable")
             {
-                var newGun = hit.collider.GetComponent<GunHolder>();
-                for (int i = 0; i < gunSlot.Length; i++)
+                var interact = hit.collider.GetComponent<InteractMain>();
+
+                if (interact != null)
                 {
-                    if (((GunSBJ)newGun.itemInfo).gunType == gunSlot[i].gunType)
+                    UIManager.Instance.SetInteractText(interact.textToInterac);
+                }
+            }
+            else
+            {
+                UIManager.Instance.SetInteractText(null);
+            }
+
+            if (!Input.GetKeyDown(ip.collect)) return;
+
+            if (hit.collider.tag == "Item")
+            {
+                var newGun = hit.collider.GetComponent<ItemHolder>();
+                for (int i = 0; i < itemSlot.Length; i++)
+                {
+                    if (newGun.itemInfo.slotType == itemSlot[i].slotType)
                     {
-                        gunSlot[i].gunInfo = ((GunSBJ)newGun.itemInfo);
-                        gunSlot[i].currentAmunition = newGun.currentAmunition;
-                        gunSlot[i].maxAmunition = newGun.maxAmunition;
-                        gunSlot[i].magazineAmunition = newGun.magazineAmunition;
-                        
+
+                        if (itemSlot[i].itemInfo != null)
+                        {
+                            DropItem(i);
+
+                        }
+
+                        itemSlot[i].itemInfo = newGun.itemInfo;
+                        itemSlot[i].item = Instantiate(itemSlot[i].itemInfo.itemPrefab, holder);
+
+
+
+                        itemSlot[i].item.GetComponent<ItemHolder>().Infos(newGun.gameObject, itemSlot[i].item);
+
+
+                        itemSlot[i].item.GetComponent<Rigidbody>().isKinematic = true;
+                        itemSlot[i].item.GetComponent<Collider>().enabled = false;
+
+                        itemSlot[i].item.gameObject.SetActive(itemSlot[i].equipe);
+
+                        //if (itemSlot[i].itemInfo != null && currentSlot.index == i)
+                        //EquipGun(i);
+
+                        if (i == currentSlot.index)
+                            StartCoroutine(EquipGun(i));
+
                         Destroy(newGun.gameObject);
 
                         break;
                     }
                 }
             }
-        }
+            else if (hit.collider.tag == "Interactable")
+            {
+                var interact = hit.collider.GetComponent<InteractMain>();
 
+                if (interact != null)
+                {
+                    interact.Interact(gameObject);
+                }
+
+            }
+        }
+        else
+        {
+            UIManager.Instance.SetInteractText(null);
+        }
     }
     private IEnumerator EquipGun(int _index)
     {
-        if (currentSlot.index != _index)
+        var newGun = itemSlot[_index].itemInfo;
+
+        if (newGun != null)
         {
-            var newGun = gunSlot[_index].gunInfo;
+            switchGun = true;
 
-            if (newGun != null)
-            {
-                switchGun = true;
+            //animação de guardar
+            arms.CrossFade("DesEquipe", .2f);
 
-                //animação de guardar
-                arms.CrossFade("DesEquipe", .2f);
+            var _current = itemSlot[currentSlot.index];
 
-                var _current = gunSlot[currentSlot.index].gunInfo;
+            yield return new WaitForSeconds(_current.itemInfo != null ? _current.itemInfo.timeToSwitch : 1f);
+            _current.equipe = false;
 
-                yield return new WaitForSeconds(_current != null ? _current.timeToSwitch : 1f);
+            if (_current.itemInfo != null)
+                _current.item.SetActive(_current.equipe);
 
-                if (currentSlot.currentPrefab != null)
-                    Destroy(currentSlot.currentPrefab);
+            itemSlot[_index].equipe = true;
+            //Destroy(currentSlot.currentPrefab);
 
-                arms.runtimeAnimatorController = newGun.controller;
+            arms.runtimeAnimatorController = newGun.controller;
 
-                //animação de puxar
+            //animação de puxar
 
-                currentSlot.index = _index;
-                currentSlot.currentPrefab = Instantiate(newGun.itemPrefab, holder);
-                currentSlot.GunHolder = currentSlot.currentPrefab.GetComponent<GunHolder>();
-
-                currentSlot.currentPrefab.GetComponent<Rigidbody>().isKinematic = true;
-                currentSlot.currentPrefab.GetComponent<Collider>().enabled = false;
+            currentSlot.index = _index;
+            currentSlot.currentPrefab = itemSlot[_index].item;
+            currentSlot.itemHolder = currentSlot.currentPrefab.GetComponent<ItemHolder>();
 
 
-                var _recoil = cam.GetComponentInParent<CameraRecoil>();
+            currentSlot.currentPrefab.SetActive(itemSlot[_index].equipe); 
 
-                _recoil.SetVaiables(_current.recoil, _current.snappiness, _current.returnSpeed);
+            yield return new WaitForSeconds(newGun.timeToSwitch);
 
-                yield return new WaitForSeconds(newGun.timeToSwitch);
-
-                switchGun = false;
-            }
+            switchGun = false;
         }
+
         yield return null;
     }
     private void UsingItem()
     {
-        if (currentSlot.GunHolder == null || switchGun) return;
-
-        currentSlot.GunHolder.UsingItem(this);
+        if (currentSlot.itemHolder == null) return;
+        
+        if (!switchGun)
+        {
+            currentSlot.itemHolder.UsingItem(this);
+        }
+        currentSlot.itemHolder.SetHUD(this);
     }
-
-    private void SetIU()
+    private void DropItem(int _index)
     {
-        if (!currentSlot.GunHolder) return;
+        var item = itemSlot[_index];
+        item.item.SetActive(true);
 
-        gunSprite.sprite = currentSlot.GunHolder.itemInfo.itemSprite;
-        gunText.text = $"{gunSlot[currentSlot.index].currentAmunition} / {gunSlot[currentSlot.index].magazineAmunition}";
+        item.item.transform.parent = null;
+        item.item.GetComponent<Collider>().enabled = true;
+        item.item.GetComponent<Rigidbody>().isKinematic = false;
+
+        item.item = null;
+        item.equipe = false;
+        item.itemInfo = null;
+
+        currentSlot.itemHolder = null;
+        currentSlot.currentPrefab = null;
+
+    }
+    private void DropItemEquiped()
+    {
+        if (itemSlot[currentSlot.index == 0 ? 1 : 0].itemInfo == null) return; 
+
+        var item = itemSlot[currentSlot.index];
+
+        if (item == null) return;
+
+        item.item.SetActive(item.equipe);
+
+        item.item.transform.parent = null;
+        item.item.GetComponent<Collider>().enabled = true;
+        item.item.GetComponent<Rigidbody>().isKinematic = false;
+
+        item.item = null;
+        item.equipe = false;
+        item.itemInfo = null;
+
+        currentSlot.currentPrefab = null;
+        currentSlot.itemHolder = null;
+
+        StartCoroutine(EquipGun(currentSlot.index == 0 ? 1 : 0));
+    }
+    public void HiMark()
+    {
+        StartCoroutine(targetActive());
+    }
+    public IEnumerator targetActive()
+    {
+        hitTarget.SetActive(true);
+        yield return new WaitForSeconds(.05f);
+        hitTarget.SetActive(false);
     }
 }
-
-
-[Serializable]
-public class Gun 
-{
-    public GunSBJ gunInfo;
-    public gunType gunType;
-
-    [Space(10)]
-    public int currentAmunition;
-    public int maxAmunition;
-    public int magazineAmunition;
-}
-[Serializable]
-public class currentGun
-{
-    public GameObject currentPrefab;
-    public GunHolder GunHolder;
-    public int index;
-}
-
-public enum gunType { None, pistol, rifle }
-
-[Serializable]
-public class Projects 
-{
-    public ProjectHolder project;
-    public int amount;
-}
-
-

@@ -15,4 +15,8 @@ MonoBehaviour:
   itemName: Granda
   itemPrefab: {fileID: 4223970311510382809, guid: 44a651f4fad7b494dbc4f3fd143bd8d9, type: 3}
   itemSprite: {fileID: 0}
+  slotType: 3
+  timeToSwitch: 0
+  controller: {fileID: 22100000, guid: fffc4fb3d99fb7d47ba935394b9a5b43, type: 2}
   MaxAmount: 5
+  timeToFiring: 0

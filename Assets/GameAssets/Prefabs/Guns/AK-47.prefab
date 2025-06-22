@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3856622151317283399}
   m_Layer: 0
   m_Name: AK-47
-  m_TagString: Gun
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -77,15 +77,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemInfo: {fileID: 11400000, guid: e70baae0b9341904a8378cd9b371d98a, type: 2}
-  currentAmunition: 25
-  maxAmunition: 25
-  magazineAmunition: 250
-  forcerCollision: 25
-  firingPoint: {fileID: 7698706307555850590}
-  gunAnimator: {fileID: 0}
   input: {fileID: 0}
+  itemAnimator: {fileID: 0}
   arms: {fileID: 7860293713796775862}
   cam: {fileID: 0}
+  currentAmunition: 25
+  maxAmunition: 25
+  amunitionType: 2
+  forcerCollision: 25
+  firingPoint: {fileID: 7698706307555850590}
   reload: 0
   aim: 0
   firing: 0
@@ -136,7 +136,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!1 &1169910529637147847
 GameObject:
   m_ObjectHideFlags: 0

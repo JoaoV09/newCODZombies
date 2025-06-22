@@ -325,7 +325,7 @@ GameObject:
   - component: {fileID: 8164596870154176308}
   m_Layer: 0
   m_Name: Revolve
-  m_TagString: Gun
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -386,15 +386,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemInfo: {fileID: 11400000, guid: 558a9877392183941b119d73261dfad4, type: 2}
-  currentAmunition: 6
-  maxAmunition: 6
-  magazineAmunition: 120
-  forcerCollision: 25
-  firingPoint: {fileID: 8779256280360132140}
-  gunAnimator: {fileID: 0}
   input: {fileID: 0}
+  itemAnimator: {fileID: 0}
   arms: {fileID: 1141598629877767947}
   cam: {fileID: 0}
+  currentAmunition: 6
+  maxAmunition: 6
+  amunitionType: 1
+  forcerCollision: 25
+  firingPoint: {fileID: 8779256280360132140}
   reload: 0
   aim: 0
   firing: 0
@@ -445,7 +445,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!1 &3445971588709507665
 GameObject:
   m_ObjectHideFlags: 0

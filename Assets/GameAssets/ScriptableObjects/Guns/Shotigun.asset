@@ -15,19 +15,20 @@ MonoBehaviour:
   itemName: Shotigun
   itemPrefab: {fileID: 1251611208673901743, guid: 7add5e08c1441c742ae068aacc5a9d16, type: 3}
   itemSprite: {fileID: 21300000, guid: 7a763d621dbfa5c4183d7e566aab685d, type: 3}
-  damager: 2
+  slotType: 2
+  timeToSwitch: 1
+  controller: {fileID: 22100000, guid: 09f29787bee1cea4fa871ab41e8ca176, type: 2}
+  damager: 80
   distToFiring: 15
   maks:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 257
   timeToReload: 1
-  timeToSwitch: 1
   timeToFiring: 1
   recoil: {x: 20, y: 3, z: 5}
   aimRecoil: {x: 15, y: 2, z: 3}
   snappiness: 8
   returnSpeed: 1
-  gunType: 2
   firingType: 1
   bulletHits:
   - tag: Untagged
@@ -39,9 +40,8 @@ MonoBehaviour:
   - tag: Enemy
     layer:
       serializedVersion: 2
-      m_Bits: 1
+      m_Bits: 256
     bulletHole: {fileID: 0}
     particalCollider: {fileID: 7470586865825130479, guid: fcb61529352f32c4ab1fa40dceac4faf, type: 3}
   firingPartical: {fileID: 100000, guid: 8eaaa4f553116f44b8459bc24201c514, type: 3}
   firingSound: {fileID: 0}
-  controller: {fileID: 22100000, guid: 09f29787bee1cea4fa871ab41e8ca176, type: 2}

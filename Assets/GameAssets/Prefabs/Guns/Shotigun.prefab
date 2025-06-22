@@ -78,7 +78,7 @@ GameObject:
   - component: {fileID: 1558354567554228171}
   m_Layer: 0
   m_Name: Shotigun
-  m_TagString: Gun
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -173,7 +173,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!114 &1558354567554228171
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187,15 +187,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemInfo: {fileID: 11400000, guid: 28992c9c87e46eb41a4884c79b4207c7, type: 2}
-  currentAmunition: 5
-  maxAmunition: 5
-  magazineAmunition: 30
-  forcerCollision: 30
-  firingPoint: {fileID: 5709287904810568137}
-  gunAnimator: {fileID: 924516912807435466}
   input: {fileID: 0}
+  itemAnimator: {fileID: 0}
   arms: {fileID: 0}
   cam: {fileID: 0}
+  currentAmunition: 5
+  maxAmunition: 5
+  amunitionType: 3
+  forcerCollision: 30
+  firingPoint: {fileID: 5709287904810568137}
   reload: 0
   aim: 0
   firing: 0

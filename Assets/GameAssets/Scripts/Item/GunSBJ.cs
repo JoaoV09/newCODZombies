@@ -11,7 +11,7 @@ public class GunSBJ : ItemSBJ
 
     [Space(10)]
     public float timeToReload;
-    public float timeToSwitch;
+    
     public float timeToFiring;
 
     [Space(10)]
@@ -22,22 +22,15 @@ public class GunSBJ : ItemSBJ
     public float returnSpeed;
     
     [Space(10)]
-    public gunType gunType;
+    
     public FiringType firingType;
 
     [Space(10)]
     public BulletsHitCollider[] bulletHits;
     public GameObject firingPartical;
     public AudioClip firingSound;
-    public RuntimeAnimatorController controller;
+    
 }
 
 public enum FiringType { automatic, semi }
-[Serializable]
-public class BulletsHitCollider
-{
-    public string tag;
-    public LayerMask layer;
-    public GameObject bulletHole;
-    public GameObject particalCollider;
-}
+

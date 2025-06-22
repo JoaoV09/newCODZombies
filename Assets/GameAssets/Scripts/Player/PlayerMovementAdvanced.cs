@@ -1,8 +1,13 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
-public class PlayerMovementAdvanced : MonoBehaviour
+public class PlayerMovementAdvanced : MonoBehaviour , TakeDamager
 {
+    [Header("Health componenet")]
+    [SerializeField] public int health { get; private set; }
+    [SerializeField] private int maxHealth = 100;
+    
     [Header("Movement")]
     [SerializeField] private float moveSpeed;
     public float walkSpeed = 2;
@@ -55,9 +60,11 @@ public class PlayerMovementAdvanced : MonoBehaviour
     public Transform orientation;
     public Animator animator;
     public CapsuleCollider cc;
+    [SerializeField] private Transform checkGround;
     Rigidbody rb;
-    Inventory inventory;
 
+    public GameObject bload;
+    
     float horizontalInput;
     float verticalInput;
 
@@ -66,6 +73,9 @@ public class PlayerMovementAdvanced : MonoBehaviour
     public bool debug;
 
     public MovementState state;
+
+    [Header("Events")]
+    public static Action OnPlayerHit;
     public enum MovementState
     {
         walking,
@@ -75,12 +85,12 @@ public class PlayerMovementAdvanced : MonoBehaviour
         air
     }
 
-
     private void Start()
     {
+        health = maxHealth;
+
         rb = GetComponent<Rigidbody>();
         cc = GetComponent<CapsuleCollider>();
-        inventory = GetComponent < Inventory>();
         animator = GlobalReferences.instances.arms;
 
         rb.freezeRotation = true;
@@ -94,14 +104,20 @@ public class PlayerMovementAdvanced : MonoBehaviour
     private void Update()
     {
         // ground check
-        grounded = Physics.CheckSphere(transform.position, speraRadius, whatIsGround);
-
+        grounded = IsGround();
         isSiling = Physics.Raycast(transform.position , Vector3.up, distToSiling, whatIsGround);
 
         MyInput();
         SpeedControl();
         StateHandler();
         SetAnimation();
+
+        UIManager.Instance.SetLifeBar(health);
+
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            Takedamager(10);
+        }
 
         // handle drag
         if (grounded)
@@ -164,7 +180,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
         }
 
         // Mode - Sprinting
-        else if (grounded && Input.GetKey(sprintKey) && verticalInput > 0 && !inventory.currentSlot.GunHolder.reload && !inventory.currentSlot.GunHolder.aim && !inventory.currentSlot.GunHolder.firing)
+        else if (grounded && Input.GetKey(sprintKey) && verticalInput > 0)
         {
             state = MovementState.sprinting;
             desiredMoveSpeed = sprintSpeed;
@@ -305,6 +321,11 @@ public class PlayerMovementAdvanced : MonoBehaviour
         return Vector3.ProjectOnPlane(direction, slopeHit.normal).normalized;
     }
 
+    public bool IsGround()
+    {
+        return Physics.CheckSphere(checkGround.position, speraRadius, whatIsGround);
+    }
+
     private void SetAnimation()
     {
         if (animator == null) return;
@@ -323,12 +344,17 @@ public class PlayerMovementAdvanced : MonoBehaviour
     {
         if (!debug) return;
         Gizmos.color = grounded ? Color.green : Color.red;
-
-        Gizmos.DrawSphere(transform.position, speraRadius);
-        Gizmos.DrawRay(transform.position, -Vector3.up * distRay);
+        Gizmos.DrawSphere(checkGround.position, speraRadius);
+        Gizmos.DrawRay(checkGround.position, -Vector3.up * distRay);
         
         Gizmos.color = isSiling ? Color.red : Color.green;
         Gizmos.DrawRay(transform.position , Vector3.up * distToSiling);
     }
 
+    public void Takedamager(int damager)
+    {
+        Instantiate(bload,Camera.main.transform.position, Quaternion.identity);
+        health = Mathf.Clamp(health - damager, 0, maxHealth);
+        OnPlayerHit?.Invoke();
+    }
 }
